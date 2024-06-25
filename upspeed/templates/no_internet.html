@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>No Internet Connection</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        text-align: center;
+        padding: 50px;
+      }
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      h1 {
+        color: #333;
+      }
+      p {
+        font-size: 1.2rem;
+        line-height: 1.6;
+        color: #666;
+      }
+      a {
+        color: #007bff;
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>No Internet Connection</h1>
+      <p>Your device is not connected to the internet.</p>
+      <p>Please check your network connection and try again.</p>
+      <p>
+        If you are connected,
+        <a href="#" onclick="window.location.reload();">refresh the page</a>.
+      </p>
+    </div>
+
+    <script>
+      if (!navigator.onLine) {
+        window.location.href = "/no_internet";
+      }
+    </script>
+  </body>
+</html>

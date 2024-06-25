@@ -19,7 +19,7 @@
           <td>{{ file.name }}</td>
           <td>{{ file.date }}</td>
           <td>
-            <a href="{{ url_for('download_file', filename=file.name) }}">Download</a>
+            <a href="#" onclick="showDownloadConfirm('{{ url_for('download_file', filename=file.name) }}', '{{ file.name }}')">Download</a>
             <a href="#" onclick="showCustomConfirm('{{ url_for('delete_file', filename=file.name) }}', '{{ file.name }}')">Delete</a>
           </td>
         </tr>
@@ -58,7 +58,7 @@
 
 <div id="customConfirm" class="custom-confirm">
   <div class="custom-confirm-content">
-    <p>Are you sure you want to delete "<span id="fileToDelete"></span>"? This action cannot be undone.</p>
+    <p>Are you sure you want to delete<span id="fileToDelete"></span> This action cannot be undone.</p>
     <div class="custom-confirm-buttons">
       <button onclick="confirmDeletion()">Yes</button>
       <button onclick="cancelDeletion()">No</button>
@@ -66,8 +66,19 @@
   </div>
 </div>
 
+<div id="downloadConfirm" class="custom-confirm">
+  <div class="custom-confirm-content">
+    <p>Do you want to download<span id="fileToDownload"></span></p>
+    <div class="custom-confirm-buttons">
+      <button onclick="confirmDownload()">Yes</button>
+      <button onclick="cancelDownload()">No</button>
+    </div>
+  </div>
+</div>
+
 <script>
   let deleteUrl = '';
+  let downloadUrl = '';
 
   function showCustomConfirm(url, filename) {
     deleteUrl = url;
@@ -81,6 +92,21 @@
 
   function cancelDeletion() {
     document.getElementById('customConfirm').style.display = 'none';
+  }
+
+  function showDownloadConfirm(url, filename) {
+    downloadUrl = url;
+    document.getElementById('fileToDownload').textContent = filename;
+    document.getElementById('downloadConfirm').style.display = 'block';
+  }
+
+  function confirmDownload() {
+    document.getElementById('downloadConfirm').style.display = 'none';
+    window.location.href = downloadUrl;
+  }
+
+  function cancelDownload() {
+    document.getElementById('downloadConfirm').style.display = 'none';
   }
 </script>
 {% endblock %}
