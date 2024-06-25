@@ -1,11 +1,16 @@
-from flask import Flask, request, render_template, redirect, send_from_directory, url_for, flash
+from flask import Flask, request, render_template, redirect, send_from_directory, url_for, flash # type: ignore
 import os
+import sys
 import json
 import time
 import uuid
-from werkzeug.utils import secure_filename
-from tqdm import tqdm
+from werkzeug.utils import secure_filename # type: ignore
+from tqdm import tqdm # type: ignore
 from math import ceil
+
+# Add the project root directory to the sys.path
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from upspeed.utils.db_config import get_db  # Importing the database connection function # type: ignore
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'  # Set a secret key for flash messages
@@ -13,8 +18,26 @@ UPLOAD_FOLDER = 'uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 FILES_PER_PAGE = 10
 
+# Ensure uploads folder exists
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
+
+# Function to initialize database (if needed)
+def init_db():
+    with get_db() as conn:
+        cursor = conn.cursor()
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS contacts (
+                id INTEGER PRIMARY KEY AUTO_INCREMENT,
+                name VARCHAR(255) NOT NULL,
+                email VARCHAR(255) NOT NULL,
+                message TEXT NOT NULL
+            );
+        """)
+        conn.commit()
+
+# Initialize database on application startup
+init_db()
 
 @app.route('/')
 def index():
@@ -60,7 +83,20 @@ def contact():
         name = request.form['name']
         email = request.form['email']
         message = request.form['message']
-        return render_template('contact.html')
+        
+        # Insert into MySQL database
+        try:
+            with get_db() as conn:
+                cursor = conn.cursor()
+                sql = "INSERT INTO contacts (name, email, message) VALUES (%s, %s, %s)"
+                cursor.execute(sql, (name, email, message))
+                conn.commit()
+                flash('Message submitted successfully!', 'success')  # Flash success message
+        except Exception as e:
+            flash(f'Error: {str(e)}', 'error')  # Flash error message
+        finally:
+            return redirect('/contact')
+    
     return render_template('contact.html')
 
 @app.route('/upload_single')
@@ -70,10 +106,13 @@ def upload_single():
 @app.route('/upload_file', methods=['POST'])
 def upload_file():
     if 'file' not in request.files:
-        return 'No file part'
+        flash('No file part', 'error')
+        return redirect(request.url)
+    
     file = request.files['file']
     if file.filename == '':
-        return 'No selected file'
+        flash('No selected file', 'error')
+        return redirect(request.url)
     
     original_filename = secure_filename(file.filename)
     file_ext = os.path.splitext(original_filename)[1]
@@ -85,16 +124,21 @@ def upload_file():
     chunk_size = 4096
     progress_bar = tqdm(total=int(request.content_length), unit='B', unit_scale=True)
 
-    with open(file_path, 'wb') as f:
-        while True:
-            chunk = file.stream.read(chunk_size)
-            if not chunk:
-                break
-            f.write(chunk)
-            total_size += len(chunk)
-            progress_bar.update(len(chunk))
+    try:
+        with open(file_path, 'wb') as f:
+            while True:
+                chunk = file.stream.read(chunk_size)
+                if not chunk:
+                    break
+                f.write(chunk)
+                total_size += len(chunk)
+                progress_bar.update(len(chunk))
+    except Exception as e:
+        flash(f'Error uploading file: {str(e)}', 'error')
+        return redirect(request.url)
+    finally:
+        progress_bar.close()
 
-    progress_bar.close()
     end_time = time.time()
     upload_time = end_time - start_time
     upload_speed = total_size / upload_time
@@ -108,6 +152,7 @@ def upload_file():
     with open(metadata_path, 'w') as metadata_file:
         json.dump(metadata, metadata_file)
 
+    flash('File uploaded successfully!', 'success')
     return redirect(url_for('upload_result', origin='single', 
                             message='File uploaded successfully',
                             size=f"{total_size / (1024 * 1024):.2f} MB",
@@ -121,13 +166,16 @@ def upload_multiple():
 @app.route('/upload_multiple_files', methods=['POST'])
 def upload_multiple_files():
     if 'files' not in request.files:
-        return 'No file part'
+        flash('No file part', 'error')
+        return redirect(request.url)
+    
     files = request.files.getlist('files')
     responses = []
 
     for file in files:
         if file.filename == '':
-            return 'No selected file'
+            flash('No selected file', 'error')
+            return redirect(request.url)
         
         original_filename = secure_filename(file.filename)
         file_ext = os.path.splitext(original_filename)[1]
@@ -139,16 +187,21 @@ def upload_multiple_files():
         chunk_size = 4096
         progress_bar = tqdm(total=int(request.content_length), unit='B', unit_scale=True)
 
-        with open(file_path, 'wb') as f:
-            while True:
-                chunk = file.stream.read(chunk_size)
-                if not chunk:
-                    break
-                f.write(chunk)
-                total_size += len(chunk)
-                progress_bar.update(len(chunk))
+        try:
+            with open(file_path, 'wb') as f:
+                while True:
+                    chunk = file.stream.read(chunk_size)
+                    if not chunk:
+                        break
+                    f.write(chunk)
+                    total_size += len(chunk)
+                    progress_bar.update(len(chunk))
+        except Exception as e:
+            flash(f'Error uploading file: {str(e)}', 'error')
+            return redirect(request.url)
+        finally:
+            progress_bar.close()
 
-        progress_bar.close()
         end_time = time.time()
         upload_time = end_time - start_time
         upload_speed = total_size / upload_time
@@ -170,6 +223,7 @@ def upload_multiple_files():
         }
         responses.append(response)
 
+    flash('Files uploaded successfully!', 'success')
     return redirect(url_for('upload_result', origin='multiple',
                             message='Files uploaded successfully',
                             size=f"{total_size / (1024 * 1024):.2f} MB",
@@ -196,8 +250,8 @@ def delete_file(filename):
     file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
     if os.path.exists(file_path):
         os.remove(file_path)
-        flash(f'File "{filename}" has been deleted successfully.', 'success')  # Flash success message
-    return redirect('/file_list')
+        flash(f'File "{filename}" has been deleted successfully.', 'success')
+        return redirect('/file_list')
 
 if __name__ == '__main__':
     app.run(debug=True)
