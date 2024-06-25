@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}Uploaded Files - UpSpeed{% endblock %}
+
+{% block content %}
+<section id="filelist" class="container">
+  <h2>Uploaded Files</h2>
+  <table class="file-list">
+    <thead>
+      <tr>
+        <th>Filename</th>
+        <th>Date Uploaded</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for file in files %}
+        <tr>
+          <td>{{ file.name }}</td>
+          <td>{{ file.date }}</td>
+          <td>
+            <a href="{{ url_for('download_file', filename=file.name) }}">Download</a>
+            <a href="#" onclick="showCustomConfirm('{{ url_for('delete_file', filename=file.name) }}', '{{ file.name }}')">Delete</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <div class="pagination">
+    {% if page > 1 %}
+      <a href="{{ url_for('file_list', page=page-1) }}">&laquo; Previous</a>
+    {% endif %}
+    {% if page > 3 %}
+      <a href="{{ url_for('file_list', page=1) }}">1</a>
+      {% if page > 4 %}
+        <span>...</span>
+      {% endif %}
+    {% endif %}
+    {% for p in range(max(page-2, 1), min(page+3, total_pages+1)) %}
+      {% if p == page %}
+        <span class="current">{{ p }}</span>
+      {% else %}
+        <a href="{{ url_for('file_list', page=p) }}">{{ p }}</a>
+      {% endif %}
+    {% endfor %}
+    {% if page < total_pages - 2 %}
+      {% if page < total_pages - 3 %}
+        <span>...</span>
+      {% endif %}
+      <a href="{{ url_for('file_list', page=total_pages) }}">{{ total_pages }}</a>
+    {% endif %}
+    {% if page < total_pages %}
+      <a href="{{ url_for('file_list', page=page+1) }}">Next &raquo;</a>
+    {% endif %}
+  </div>
+</section>
+
+<div id="customConfirm" class="custom-confirm">
+  <div class="custom-confirm-content">
+    <p>Are you sure you want to delete "<span id="fileToDelete"></span>"? This action cannot be undone.</p>
+    <div class="custom-confirm-buttons">
+      <button onclick="confirmDeletion()">Yes</button>
+      <button onclick="cancelDeletion()">No</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  let deleteUrl = '';
+
+  function showCustomConfirm(url, filename) {
+    deleteUrl = url;
+    document.getElementById('fileToDelete').textContent = filename;
+    document.getElementById('customConfirm').style.display = 'block';
+  }
+
+  function confirmDeletion() {
+    window.location.href = deleteUrl;
+  }
+
+  function cancelDeletion() {
+    document.getElementById('customConfirm').style.display = 'none';
+  }
+</script>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends "base.html" %} {% block title %}Upload Result - UpSpeed{% endblock %}
+{% block content %}
+<section id="single-result" class="container">
+  {% if single_result %}
+  <div class="result">
+    <h2>{{ single_result.message }}</h2>
+    <p><strong>File size:</strong> {{ single_result.size }}</p>
+    <p><strong>Upload time:</strong> {{ single_result.time }}</p>
+    <p><strong>Upload speed:</strong> {{ single_result.speed }}</p>
+  </div>
+  {% endif %} {% if multiple_result %}
+  <div class="result">
+    <h2>{{ multiple_result.message }}</h2>
+    <p><strong>File size:</strong> {{ multiple_result.size }}</p>
+    <p><strong>Upload time:</strong> {{ multiple_result.time }}</p>
+    <p><strong>Upload speed:</strong> {{ multiple_result.speed }}</p>
+    <p><strong>Total files uploaded:</strong> {{ multiple_result.count }}</p>
+  </div>
+  {% endif %}
+</section>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Get the origin parameter from the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const origin = urlParams.get("origin");
+
+    // Log the origin value to console for debugging
+    console.log("Origin:", origin);
+
+    // Function to redirect based on origin after 2 seconds
+    setTimeout(function () {
+      if (origin === "single") {
+        window.location.href = "/upload_single";
+      } else if (origin === "multiple") {
+        window.location.href = "/upload_multiple";
+      } else {
+        // Default redirect if origin is unknown
+        console.log("Unknown origin:", origin);
+        window.location.href = "/"; // or any other default route
+      }
+    }, 3000);
+  });
+</script>
+{% endblock %}

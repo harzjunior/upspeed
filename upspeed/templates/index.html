@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UpSpeed - File Upload</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header>
+    <nav class="navbar">
+      <div class="container">
+        <h1 class="logo"><a href="/">UpSpeed</a></h1>
+        <ul class="nav-links">
+          <li><a href="/">Home</a></li>
+          <li><a href="{{ url_for('upload_single') }}">Upload Single</a></li>
+          <li><a href="{{ url_for('upload_multiple') }}">Upload Multiple</a></li>
+          <li><a href="{{ url_for('file_list') }}">Files</a></li> 
+          <li><a href="{{ url_for('contact') }}">Contact</a></li>
+          <li><a href="{{ url_for('about') }}">About</a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <section id="home" class="container">
+   <h2>Home UpSpeed</h2>
+  </section>
+
+</body>
+</html>

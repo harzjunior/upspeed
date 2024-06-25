@@ -1,0 +1,20 @@
+<!-- templates/upload_single.html -->
+{% extends "base.html" %}
+
+{% block title %}Upload Single - UpSpeed{% endblock %}
+
+{% block content %}
+<section id="single" class="container">
+    <h2>Upload Single File</h2>
+    <form action="{{ url_for('upload_file') }}" method="POST" enctype="multipart/form-data">
+        <div class="file-input">
+            <div class="single-data">
+                <input type="file" name="file" id="file" required onchange="displaySingleFilename()" />
+                <label for="file">Choose a file</label>
+            </div>
+            <span id="single-filename">No file chosen</span> <!-- Display selected filename for single file -->
+        </div>
+        <button type="submit">Upload</button>
+    </form>
+</section>
+{% endblock %}

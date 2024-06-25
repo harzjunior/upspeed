@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}UpSpeed{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="container">
+              <h1 class="logo"><a href="/">UpSpeed</a></h1>
+                <ul class="nav-links">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="{{ url_for('upload_single') }}">Upload Single</a></li>
+                    <li><a href="{{ url_for('upload_multiple') }}">Upload Multiple</a></li>
+                    <li><a href="{{ url_for('file_list') }}">Files</a></li> 
+                    <li><a href="{{ url_for('contact') }}">Contact</a></li>
+                    <li><a href="{{ url_for('about') }}">About</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <div class="content">
+        {% block content %}{% endblock %}
+    </div>
+
+    <footer>
+      <div class="container">
+          <p>&copy; 2024 UpSpeed. All rights reserved.</p>
+          <ul class="footer-links">
+              <li><a href="{{ url_for('about') }}">About Us</a></li>
+              <li><a href="{{ url_for('contact') }}">Contact</a></li>
+              <li><a href="#">Privacy Policy</a></li>
+              <li><a href="#">Terms of Service</a></li>
+          </ul>
+      </div>
+  </footer>
+
+    <script>
+        function displaySingleFilename() {
+          const input = document.getElementById('file');
+          const filename = document.getElementById('single-filename');
+          if (input.files.length > 0) {
+            filename.textContent = input.files[0].name;
+          } else {
+            filename.textContent = 'No file chosen';
+          }
+        }
+    
+        function displayMultipleFilenames() {
+          const input = document.getElementById('files');
+          const filenamesDiv = document.getElementById('multiple-filenames');
+          filenamesDiv.innerHTML = ''; // Clear previous filenames
+          if (input.files.length > 0) {
+            for (let i = 0; i < input.files.length; i++) {
+              const span = document.createElement('span');
+              span.textContent = input.files[i].name;
+              filenamesDiv.appendChild(span);
+              if (i < input.files.length - 1) {
+                const comma = document.createElement('span');
+                comma.textContent = ', ';
+                filenamesDiv.appendChild(comma);
+              }
+            }
+          } else {
+            filenamesDiv.textContent = 'No files chosen';
+          }
+        }
+    
+        function validateMultipleFiles() {
+          const input = document.getElementById('files');
+          if (input.files.length === 0) {
+            alert('Please choose at least one file to upload.');
+            return false;
+          }
+          return true;
+        }
+      </script>
+</body>
+</html>

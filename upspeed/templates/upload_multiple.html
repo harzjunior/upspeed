@@ -1,0 +1,20 @@
+<!-- templates/upload_multiple.html -->
+{% extends "base.html" %}
+
+{% block title %}Upload Multiple - UpSpeed{% endblock %}
+
+{% block content %}
+<section id="multiple" class="container">
+    <h2>Upload Multiple Files</h2>
+    <form action="{{ url_for('upload_multiple_files') }}" method="POST" enctype="multipart/form-data" onsubmit="return validateMultipleFiles()">
+      <div class="file-input">
+        <div class="single-data">
+          <input type="file" name="files" id="files" multiple required onchange="displayMultipleFilenames()" />
+          <label for="files">Choose files</label>
+        </div>
+        <span id="multiple-filenames">No files chosen</span> <!-- Display selected filenames for multiple files -->
+    </div>
+      <button type="submit">Upload</button>
+    </form>
+  </section>
+{% endblock %}

@@ -1,0 +1,450 @@
+/* General styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  height: 10vh;
+}
+
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+/* Navbar styles */
+.navbar {
+  background-color: #007bff;
+  color: white;
+  padding: 17px 0;
+}
+
+.navbar .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: bold;
+  font-style: italic;
+  font-family: cursive;
+}
+
+.logo a {
+  color: white;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.nav-links {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+.nav-links li {
+  margin-right: 20px;
+}
+
+.nav-links li a {
+  color: white;
+  text-decoration: none;
+  font-size: 1.1rem;
+}
+
+.nav-links li a:hover {
+  text-decoration: underline;
+}
+
+/* Section styles */
+section {
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+/* upload single */
+#single,
+#multiple {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+  height: 90vh;
+  gap: 20px;
+  background: #333;
+}
+
+#single form,
+#single-result form,
+#multiple form,
+#contact form {
+  text-align: start;
+  background: #f2f2f2;
+  padding: 40px;
+  box-shadow: #0056b3 0px 0px 2px 1px;
+  border-radius: 5px;
+  width: 100%;
+}
+
+#single h2,
+#multiple h2,
+#contact h2 {
+  text-align: center;
+  font-size: 30px;
+  width: 920px;
+  color: #ffffff;
+  margin-top: 0px;
+  margin-bottom: 100px;
+  padding: 20px;
+  box-shadow: #007bff 0px 2px 0px 0px;
+}
+
+.single-data {
+  margin-bottom: 10px;
+}
+
+/* File upload form styles */
+.file-input {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+input[type="file"] {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
+label {
+  font-size: 1rem;
+  font-weight: 700;
+  color: white;
+  background-color: #007bff;
+  display: inline-block;
+  padding: 12px 24px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+input[type="file"]:focus + label,
+input[type="file"] + label:hover {
+  background-color: #0056b3;
+}
+
+button {
+  font-size: 1rem;
+  font-weight: 700;
+  color: white;
+  background-color: #28a745;
+  border: none;
+  padding: 12px 24px;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-top: 10px;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #218838;
+}
+
+button:focus {
+  outline: none;
+}
+
+/* Result display styles */
+.result {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #f2f2f2;
+  border-radius: 5px;
+}
+
+.result h2 {
+  text-align: center;
+  font-size: 30px;
+  background: #424242;
+  color: #ffffff;
+  margin-top: 0px;
+  margin-bottom: 50px;
+  padding: 20px;
+  box-shadow: #007bff 0px 2px 0px 0px;
+}
+
+.result p {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+/* Table styles */
+#filelist h2,
+#contact h2 {
+  text-align: center;
+  font-size: 30px;
+  background: #424242;
+  color: #ffffff;
+  margin-top: 40px;
+  margin-bottom: 50px;
+  padding: 20px;
+  box-shadow: #007bff 0px 2px 0px 0px;
+}
+
+.file-list {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.file-list th,
+.file-list td {
+  padding: 12px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.file-list th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+.file-list tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.file-list tr:hover {
+  background-color: #f1f1f1;
+}
+
+.file-list a {
+  text-decoration: none;
+  color: #007bff;
+  margin-right: 10px;
+  transition: color 0.3s ease;
+}
+
+.file-list a:hover {
+  text-decoration: underline;
+  color: #0056b3;
+}
+
+/* Pagination styles */
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pagination a,
+.pagination span {
+  padding: 10px 15px;
+  margin: 0 5px;
+  border: 1px solid #ddd;
+  text-decoration: none;
+  color: #007bff;
+}
+
+.pagination a:hover {
+  background-color: #f1f1f1;
+}
+
+.pagination .current {
+  font-weight: bold;
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+/* Contact page styles */
+#contact {
+  text-align: center;
+}
+
+#contact form {
+  margin-top: 50px;
+}
+
+#contact p {
+  font-size: 20px;
+}
+
+form {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+label {
+  width: fit-content;
+  background-color: #28a745;
+  cursor: default;
+  color: white;
+  font-weight: bold;
+  padding: 8px 16px;
+  border-radius: 5px;
+}
+
+input[type="text"],
+input[type="email"],
+textarea {
+  width: 100%;
+  padding: 12px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+  outline: none;
+}
+
+button[type="submit"] {
+  font-size: 1rem;
+  font-weight: 700;
+  color: white;
+  background-color: #007bff;
+  border: none;
+  padding: 12px 24px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+button[type="submit"]:focus {
+  outline: none;
+}
+
+/* About page styles */
+#about {
+  text-align: center;
+  padding: 40px 20px;
+  border-radius: 5px;
+}
+
+#about h2 {
+  text-align: center;
+  font-size: 30px;
+  background: #424242;
+  color: #ffffff;
+  margin-top: 0px;
+  margin-bottom: 50px;
+  padding: 20px;
+  box-shadow: #007bff 0px 2px 0px 0px;
+}
+
+#about p {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  margin-bottom: 30px;
+  color: #3d3d3d;
+}
+
+#about p strong {
+  color: #424242;
+}
+
+/* Custom Confirm Dialog Styles */
+.custom-confirm {
+  display: none; /* Hidden by default */
+  position: fixed;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Black with transparency */
+}
+
+.custom-confirm-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 400px;
+  text-align: center;
+  border-radius: 5px;
+}
+
+.custom-confirm-content p {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+#fileToDelete {
+  color: #f40;
+}
+
+.custom-confirm-buttons {
+  margin-top: 20px;
+}
+
+.custom-confirm-buttons button {
+  margin: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.custom-confirm-buttons button:first-child {
+  background-color: #d9534f;
+  color: white;
+}
+
+.custom-confirm-buttons button:last-child {
+  background-color: #5bc0de;
+  color: white;
+}
+
+/* Footer styles */
+footer {
+  background-color: #333;
+  color: white;
+  padding: 10px 0;
+  margin-top: 100px;
+  text-align: center;
+}
+
+.footer-links {
+  list-style-type: none;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.footer-links li {
+  margin: 0 10px;
+}
+
+.footer-links li a {
+  color: white;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.3s ease;
+}
+
+.footer-links li a:hover {
+  color: #f2f2f2;
+}
