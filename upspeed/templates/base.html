@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}UpSpeed{% endblock %}</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
     <header>
@@ -39,45 +39,56 @@
       </div>
   </footer>
 
-    <script>
-        function displaySingleFilename() {
-          const input = document.getElementById('file');
-          const filename = document.getElementById('single-filename');
-          if (input.files.length > 0) {
-            filename.textContent = input.files[0].name;
-          } else {
-            filename.textContent = 'No file chosen';
-          }
+
+<script>
+  function displaySingleFilename() {
+    const input = document.getElementById("file");
+    const filename = document.getElementById("single-filename");
+    if (input.files.length > 0) {
+      filename.textContent = input.files[0].name;
+    } else {
+      filename.textContent = "No file chosen";
+    }
+  }
+
+  function displayMultipleFilenames() {
+    const input = document.getElementById("files");
+    const filenamesDiv = document.getElementById("multiple-filenames");
+    filenamesDiv.innerHTML = ""; // Clear previous filenames
+    if (input.files.length > 0) {
+      for (let i = 0; i < input.files.length; i++) {
+        const span = document.createElement("span");
+        span.textContent = input.files[i].name;
+        filenamesDiv.appendChild(span);
+        if (i < input.files.length - 1) {
+          const comma = document.createElement("span");
+          comma.textContent = ", ";
+          filenamesDiv.appendChild(comma);
         }
-    
-        function displayMultipleFilenames() {
-          const input = document.getElementById('files');
-          const filenamesDiv = document.getElementById('multiple-filenames');
-          filenamesDiv.innerHTML = ''; // Clear previous filenames
-          if (input.files.length > 0) {
-            for (let i = 0; i < input.files.length; i++) {
-              const span = document.createElement('span');
-              span.textContent = input.files[i].name;
-              filenamesDiv.appendChild(span);
-              if (i < input.files.length - 1) {
-                const comma = document.createElement('span');
-                comma.textContent = ', ';
-                filenamesDiv.appendChild(comma);
-              }
-            }
-          } else {
-            filenamesDiv.textContent = 'No files chosen';
-          }
-        }
-    
-        function validateMultipleFiles() {
-          const input = document.getElementById('files');
-          if (input.files.length === 0) {
-            alert('Please choose at least one file to upload.');
-            return false;
-          }
-          return true;
-        }
-      </script>
+      }
+    } else {
+      filenamesDiv.textContent = "No files chosen";
+    }
+  }
+
+  function validateMultipleFiles() {
+    const input = document.getElementById("files");
+    if (input.files.length === 0) {
+      alert("Please choose at least one file to upload.");
+      return false;
+    }
+    return true;
+  }
+
+  // Function to hide flash messages after 3 seconds
+  document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(function() {
+      var alerts = document.querySelectorAll('.alert');
+      alerts.forEach(function(alert) {
+        alert.style.display = 'none';
+      });
+    }, 3000);
+  });
+</script>
 </body>
 </html>

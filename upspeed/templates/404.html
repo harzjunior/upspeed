@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Page Not Found</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="error-page">
+        <h1>404</h1>
+        <h2>Oops! You're Lost in Cyberspace!</h2>
+        <p>Looks like you've wandered off the digital path. Don't worry, even the best of us get lost sometimes.</p>
+        <a href="{{ url_for('index') }}">Go Back Home</a>
+    </div>
+</body>
+</html>

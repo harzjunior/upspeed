@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>UpSpeed - File Upload</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
   <header>
@@ -12,7 +12,7 @@
       <div class="container">
         <h1 class="logo"><a href="/">UpSpeed</a></h1>
         <ul class="nav-links">
-          <li><a href="/">Home</a></li>
+          <li><a href="/" class="active">Home</a></li>
           <li><a href="{{ url_for('upload_single') }}">Upload Single</a></li>
           <li><a href="{{ url_for('upload_multiple') }}">Upload Multiple</a></li>
           <li><a href="{{ url_for('file_list') }}">Files</a></li> 
@@ -24,8 +24,62 @@
   </header>
 
   <section id="home" class="container">
-   <h2>Home UpSpeed</h2>
+    <div class="hero-content">
+      <h1>Welcome to UpSpeed</h1>
+      <p>Effortlessly upload and manage your files with UpSpeed. Whether it's a single file or multiple files, we've got you covered.</p>
+      <a href="{{ url_for('upload_single') }}" class="btn btn-primary">Upload Now</a>
+    </div>
   </section>
 
+  <section id="features" class="container">
+    <h2>Key Features</h2>
+    <div class="feature">
+      <div class="feature-icon">
+        <img src="{{ url_for('static', filename='images/img_1.jpeg') }}" alt="Upload Icon">
+      </div>
+      <div class="feature-text">
+        <h3>Simple File Upload</h3>
+        <p>Upload files with ease using our intuitive interface. Choose between single or multiple file upload options.</p>
+      </div>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">
+        <img src="{{ url_for('static', filename='images/img_2.jpeg') }}" alt="Security Icon">
+      </div>
+      <div class="feature-text">
+        <h3>Secure and Private</h3>
+        <p>Your files are securely stored and kept private. Only you have access to your uploaded files.</p>
+      </div>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">
+        <img src="{{ url_for('static', filename='images/img_3.jpeg') }}" alt="Manage Icon">
+      </div>
+      <div class="feature-text">
+        <h3>Efficient File Management</h3>
+        <p>Effortlessly manage your files with features like file listing, downloading, and more.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="cta" class="container">
+    <h2>Get Started Today</h2>
+    <p>Start using UpSpeed today and experience seamless file upload and management.</p>
+    <a href="{{ url_for('upload_single') }}" class="btn btn-primary">Upload Now</a>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2024 UpSpeed. All rights reserved.</p>
+      <ul class="footer-links">
+        <li><a href="{{ url_for('about') }}">About Us</a></li>
+        <li><a href="{{ url_for('contact') }}">Contact</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Terms of Service</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
